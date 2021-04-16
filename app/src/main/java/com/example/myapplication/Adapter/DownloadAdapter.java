@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
 
     private final Context mContext;
     private final List<Download> mDown;
+    String fileExtension;
 
     public DownloadAdapter(Context mContext, List<Download> mDown) {
         this.mContext = mContext;
@@ -45,11 +47,26 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
 
         final Download download = mDown.get(position);
 
+
+        if(download.getExtension().equals("application/pdf")) {
+            fileExtension = ".pdf";
+        }else if(download.getExtension().equals("text/plain")){
+            fileExtension = ".txt";
+            holder.imageFilePdf.setVisibility(View.INVISIBLE);
+            holder.imageFileTXT.setVisibility(View.VISIBLE);
+        }else{
+            fileExtension = ".docx";
+            holder.imageFilePdf.setVisibility(View.INVISIBLE);
+            holder.imageFileDocx.setVisibility(View.VISIBLE);
+        }
+
         holder.fileName.setText(download.getName());
+        holder.fileExt.setText(fileExtension);
+
         holder.downBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadFile(holder.fileName.getContext(), download.getName(), ".pdf", DIRECTORY_DOWNLOADS, download.getLink());
+                downloadFile(holder.fileName.getContext(), download.getName(), fileExtension, DIRECTORY_DOWNLOADS, download.getLink());
             }
         });
 
@@ -79,16 +96,24 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView fileName;
+        public TextView fileExt;
         public Button renameBtn;
         public ImageButton downBtn;
+        public ImageView imageFilePdf;
+        public ImageView imageFileDocx;
+        public ImageView imageFileTXT;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             fileName = itemView.findViewById(R.id.fileName);
+            fileExt = itemView.findViewById(R.id.fileExt);
             renameBtn = itemView.findViewById(R.id.renameBtn);
             downBtn = itemView.findViewById(R.id.downBtn);
+            imageFilePdf = itemView.findViewById(R.id.imageFilePdf);
+            imageFileDocx = itemView.findViewById(R.id.imageFileDocx);
+            imageFileTXT = itemView.findViewById(R.id.imageFileTXT);
 
         }
     }

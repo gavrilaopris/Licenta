@@ -108,6 +108,7 @@
     </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/lista"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/baraTitlu">
@@ -119,5 +120,23 @@
         />
 
 </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:id="@+id/bottom">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_addbtn"
+            android:id="@+id/addProject"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
