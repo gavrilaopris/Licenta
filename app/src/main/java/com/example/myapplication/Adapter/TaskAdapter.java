@@ -40,9 +40,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
         final Task task = mTasks.get(position);
 
+        String date = task.getStartDate()+" - "+task.getEndDate();
+
         holder.projectname.setText(task.getTitlu());
-        holder.startDate.setText(task.getStartDate());
-        holder.endDate.setText(task.getEndDate());
+        holder.Date.setText(date);
         holder.status.setText(task.getStatus());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -66,8 +67,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView projectname;
-        public TextView startDate;
-        public TextView endDate;
+        public TextView Date;
         public TextView status;
 
 
@@ -75,8 +75,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             super(itemView);
 
             projectname = itemView.findViewById(R.id.projectname);
-            startDate = itemView.findViewById(R.id.startDate);
-            endDate = itemView.findViewById(R.id.endDate);
+            Date = itemView.findViewById(R.id.Date);
             status = itemView.findViewById(R.id.status);
         }
     }

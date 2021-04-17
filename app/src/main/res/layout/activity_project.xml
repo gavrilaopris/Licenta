@@ -62,64 +62,85 @@
         />
 </RelativeLayout>
 
-    <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-        android:id="@+id/baraTitlu"
-
-    android:layout_below="@+id/ceva">
-
-        <TextView
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/bara"
-            android:text="Etape"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:layout_alignParentStart="true"
-            android:paddingEnd="35dp"
-            android:paddingStart="10dp"
-            android:paddingBottom="10dp"
-            />
-
-        <TextView
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ceva"
+        >
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/status"
-            android:text="Status"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:layout_toEndOf="@+id/bara"
-            android:paddingBottom="10dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date"
-            android:text="Date"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:layout_alignParentEnd="true"
-            android:paddingStart="10dp"
-            android:paddingEnd="60dp"
-            android:paddingBottom="10dp"
-            />
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bara"
 
-    </RelativeLayout>
+                >
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text"
+                    android:text="Project title"
+                    android:textSize="20dp"
+                    android:layout_alignParentStart="true"
+                    android:paddingEnd="35dp"
+                    android:paddingStart="10dp"
+                    android:paddingBottom="10dp"
+                    />
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/image"
+                    android:text="Image owner"
+                    android:textSize="20dp"
+                    android:layout_toEndOf="@+id/text"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingBottom="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/status"
+                    android:text="Status"
+                    android:textSize="20dp"
+                    android:layout_toEndOf="@+id/image"
+                    android:paddingBottom="10dp"
+                    android:paddingStart="35dp"
+                    android:paddingEnd="35dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date"
+                    android:text="Date"
+                    android:textSize="20dp"
+                    android:layout_toEndOf="@+id/status"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="35dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginStart="22dp"
+                    android:textAlignment="center"
+                    />
+            </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/lista"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/baraTitlu">
+            android:layout_below="@+id/bara">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
         />
+        </RelativeLayout>
+        </RelativeLayout>
+    </HorizontalScrollView>
 
-</RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

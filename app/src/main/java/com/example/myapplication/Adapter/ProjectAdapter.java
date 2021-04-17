@@ -17,6 +17,8 @@ import com.example.myapplication.R;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
 
     private final Context mContext;
@@ -40,9 +42,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
         final Project project = mProjects.get(position);
 
+        String date = project.getStartDate()+" - "+project.getEndDate();
+
         holder.projectname.setText(project.getName());
-        holder.startDate.setText(project.getStartDate());
-        holder.endDate.setText(project.getEndDate());
+        holder.Date.setText(date);
         holder.status.setText(project.getStatus());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +70,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView projectname;
-        public TextView startDate;
-        public TextView endDate;
+        public CircleImageView userimage;
+        public TextView Date;
         public TextView status;
 
 
@@ -76,8 +79,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             super(itemView);
 
             projectname = itemView.findViewById(R.id.projectname);
-            startDate = itemView.findViewById(R.id.startDate);
-            endDate = itemView.findViewById(R.id.endDate);
+            userimage = itemView.findViewById(R.id.image);
+            Date = itemView.findViewById(R.id.Date);
             status = itemView.findViewById(R.id.status);
         }
     }

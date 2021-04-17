@@ -4,21 +4,34 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
-    android:background="@android:color/darker_gray"
+    android:background="#CDCBCB"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:orientation="horizontal">
+
+
+
 
     <TextView
-        android:layout_width="150dp"
-        android:layout_height="25dp"
+        android:layout_width="200dp"
+        android:layout_height="24dp"
         android:text="projectname"
         android:id="@+id/projectname"
-        android:layout_centerVertical="true"
         android:textSize="18sp"
+        android:layout_centerVertical="true"
         android:paddingStart="10dp"
         android:paddingEnd="60dp"
-        android:layout_alignParentStart="true"
-        />
+        android:layout_alignParentStart="true"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/userImage"
+        android:layout_toEndOf="@+id/projectname"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="160dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,8 +41,7 @@
         android:id="@+id/status"
         android:background="@color/teal_200"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/projectname"
-
+        android:layout_toEndOf="@+id/userImage"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         />
@@ -38,22 +50,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="startDate"
-        android:id="@+id/startDate"
+        android:id="@+id/Date"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/endDate"
+        android:layout_toEndOf="@+id/status"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
+        android:background="@drawable/rounded_corners"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="endDate"
-        android:id="@+id/endDate"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        />
+
+
 
 </RelativeLayout>

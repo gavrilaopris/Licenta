@@ -39,9 +39,10 @@ public class EtapeAdapter extends RecyclerView.Adapter<EtapeAdapter.ViewHolder> 
 
         final Etapa etapa = mEtape.get(position);
 
+        String date = etapa.getStartDate()+" - "+etapa.getEndDate();
+
         holder.projectname.setText(etapa.getTitlu());
-        holder.startDate.setText(etapa.getStartDate());
-        holder.endDate.setText(etapa.getEndDate());
+        holder.Date.setText(date);
         holder.status.setText(etapa.getStatus());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +66,7 @@ public class EtapeAdapter extends RecyclerView.Adapter<EtapeAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView projectname;
-        public TextView startDate;
-        public TextView endDate;
+        public TextView Date;
         public TextView status;
 
 
@@ -74,8 +74,7 @@ public class EtapeAdapter extends RecyclerView.Adapter<EtapeAdapter.ViewHolder> 
             super(itemView);
 
             projectname = itemView.findViewById(R.id.projectname);
-            startDate = itemView.findViewById(R.id.startDate);
-            endDate = itemView.findViewById(R.id.endDate);
+            Date = itemView.findViewById(R.id.Date);
             status = itemView.findViewById(R.id.status);
         }
     }
