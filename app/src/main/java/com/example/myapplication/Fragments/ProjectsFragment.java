@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,12 +159,29 @@ public class ProjectsFragment extends Fragment {
             public void onClick(View v) {
 
                 final String name = projectname.getText().toString();
-                final String startDte = dateTextStart.getText().toString();
+                final String startDate = dateTextStart.getText().toString();
                 final String endDate = dateTextEnd.getText().toString();
                 final String desc = descriere.getText().toString();
 
+                if (TextUtils.isEmpty(name)) {
+                    projectname.setError("Title is Require");
+                    return;
+                }
+                if (TextUtils.isEmpty(desc)) {
+                    descriere.setError("Description is Require");
+                    return;
+                }
+                if (TextUtils.isEmpty(startDate)) {
+                    dateTextStart.setError("StartDate is Require");
+                    return;
+                }
+                if (TextUtils.isEmpty(endDate)) {
+                    dateTextEnd.setError("EndDate is Require");
+                    return;
+                }
 
-                createProject(name, desc, startDte, endDate);
+
+                createProject(name, desc, startDate, endDate);
             }
         });
 

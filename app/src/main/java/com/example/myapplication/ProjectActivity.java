@@ -11,6 +11,7 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -193,12 +194,29 @@ public class ProjectActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final String titlu = stagename.getText().toString();
-                final String startDte = dateTextStart.getText().toString();
+                final String startDate = dateTextStart.getText().toString();
                 final String endDate = dateTextEnd.getText().toString();
                 final String desc = descrie.getText().toString();
 
+                if (TextUtils.isEmpty(titlu)) {
+                    stagename.setError("Title is Require");
+                    return;
+                }
+                if (TextUtils.isEmpty(desc)) {
+                    descrie.setError("Description is Require");
+                    return;
+                }
+                if (TextUtils.isEmpty(startDate)) {
+                    dateTextStart.setError("StartDate is Require");
+                    return;
+                }
+                if (TextUtils.isEmpty(endDate)) {
+                    dateTextEnd.setError("EndDate is Require");
+                    return;
+                }
 
-                createProject(titlu, desc, startDte, endDate, projectid);
+
+                createProject(titlu, desc, startDate, endDate, projectid);
             }
         });
 
