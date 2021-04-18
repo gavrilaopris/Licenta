@@ -153,7 +153,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_addbtn"
-            android:id="@+id/addProject"
+            android:id="@+id/addEtapa"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"/>
 

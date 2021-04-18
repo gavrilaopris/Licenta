@@ -6,11 +6,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 
@@ -26,10 +33,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProjectActivity extends AppCompatActivity {
+
+    private AlertDialog.Builder builder;
+    private AlertDialog alertDialog;
+
+    private EditText stagename, descrie, dateTextStart, dateTextEnd;
+    private ImageView arrowStart , arrowEnd;
+    private Button btnCreate;
+
 
     TextView titlu;
     TextView descriere;
@@ -38,6 +56,8 @@ public class ProjectActivity extends AppCompatActivity {
 
     private EtapeAdapter etapeAdapter;
     private List<Etapa> mEtape;
+
+    private ImageView addEtapa;
 
     FirebaseDatabase db;
 
@@ -89,7 +109,16 @@ public class ProjectActivity extends AppCompatActivity {
 
         mEtape = new ArrayList<Etapa>();
 
+        addEtapa = findViewById(R.id.addEtapa);
+
         readEtape(projectid);
+
+        addEtapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewDialog();
+            }
+        });
 
 
     }
@@ -124,4 +153,97 @@ public class ProjectActivity extends AppCompatActivity {
         });
 
     }
+
+    private void createNewDialog(){
+
+        builder = new AlertDialog.Builder(this);
+        final View createpopupView = getLayoutInflater().inflate(R.layout.popup_etape, null);
+
+        stagename = (EditText) createpopupView.findViewById(R.id.stagename);
+        dateTextStart = (EditText) createpopupView.findViewById(R.id.dateTextStart);
+        dateTextEnd = (EditText) createpopupView.findViewById(R.id.dateTextEnd);
+        descrie = (EditText) createpopupView.findViewById(R.id.descriere);
+
+        arrowStart = (ImageView) createpopupView.findViewById(R.id.arrowStart);
+        arrowEnd = (ImageView) createpopupView.findViewById(R.id.arrowEnd);
+
+        btnCreate = (Button) createpopupView.findViewById(R.id.btnCreate);
+
+        builder.setView(createpopupView);
+        alertDialog = builder.create();
+        alertDialog.show();
+
+        arrowStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(dateTextStart);
+            }
+        });
+
+
+        arrowEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(dateTextEnd);
+            }
+        });
+
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String titlu = stagename.getText().toString();
+                final String startDte = dateTextStart.getText().toString();
+                final String endDate = dateTextEnd.getText().toString();
+                final String desc = descrie.getText().toString();
+
+
+                createProject(titlu, desc, startDte, endDate, projectid);
+            }
+        });
+
+    }
+
+    private void showDatePickerDialog(EditText text){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                new OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        Calendar c = Calendar.getInstance();
+                        c.set(Calendar.YEAR, year);
+                        c.set(Calendar.MONTH, month);
+                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+
+                        String date = DateFormat.getDateInstance(DateFormat.DEFAULT).format(c.getTime());
+                        text.setText(date);
+                    }
+                },
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    private void createProject(String titlu, String desc, String startDate, String endDate, String projectid){
+
+        String timeStamp = ""+System.currentTimeMillis();
+        DatabaseReference reference = db.getReference("Etape").child(projectid);
+
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("id", timeStamp);
+        hashMap.put("titlu", titlu);
+        hashMap.put("descriere", desc);
+        hashMap.put("startDate", startDate);
+        hashMap.put("endDate", endDate);
+        hashMap.put("status", "toDo");
+
+        reference.push().setValue(hashMap);
+
+    }
+
+
 }
