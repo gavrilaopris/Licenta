@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.myapplication.Fragments.ChatsFragment;
 import com.example.myapplication.Fragments.ProjectsFragment;
 import com.example.myapplication.Fragments.UsersFragment;
+import com.example.myapplication.Fragments.WorkFragment;
 import com.example.myapplication.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -189,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chat");
         viewPagerAdapter.addFragment(new UsersFragment(), "Users");
         viewPagerAdapter.addFragment(new ProjectsFragment(), "Projects");
+        viewPagerAdapter.addFragment(new WorkFragment(), "Work");
 
         viewPager.setAdapter(viewPagerAdapter);
 

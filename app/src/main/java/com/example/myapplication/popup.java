@@ -220,7 +220,7 @@ public class popup extends AppCompatDialogFragment {
                     mUsers.add(user);
 
                 }
-                userAdapter = new UserAdapter(getContext(), mUsers, false, true);
+                userAdapter = new UserAdapter(getContext(), mUsers, false, true, false);
                 recyclerView1.setAdapter(userAdapter);
 
 
@@ -239,7 +239,12 @@ public class popup extends AppCompatDialogFragment {
     private void createProject(String titlu, String desc, String startDate, String endDate, String etapaid){
 
         String timeStamp = ""+System.currentTimeMillis();
-        DatabaseReference reference = db.getReference("Tasks").child(etapaid).child(timeStamp);
+        DatabaseReference ref = db.getReference("ListTasks").child(etapaid);
+        HashMap<String,String> map = new HashMap<>();
+        map.put("id", timeStamp);
+        ref.child(timeStamp).setValue(map);
+
+        DatabaseReference reference = db.getReference("Tasks").child(timeStamp);
 
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("id", timeStamp);

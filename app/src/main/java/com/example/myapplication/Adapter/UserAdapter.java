@@ -21,6 +21,7 @@ import com.example.myapplication.Model.Chat;
 import com.example.myapplication.Model.User;
 import com.example.myapplication.PopupUserList;
 import com.example.myapplication.R;
+import com.example.myapplication.WorkActivity;
 import com.example.myapplication.popup;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private final Context mContext;
     private final List<User> mUsers;
-    private final boolean ischat, isworker;
+    private final boolean ischat, isworker, iswork;
 
     String theLastMessage;
 
@@ -51,11 +52,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     StorageReference storageReference;
     FirebaseAuth fAuth;
 
-    public UserAdapter(Context mContext, List<User> mUsers, boolean ischat, boolean isworker){
+    public UserAdapter(Context mContext, List<User> mUsers, boolean ischat, boolean isworker, boolean iswork){
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.ischat = ischat;
         this.isworker = isworker;
+        this.iswork = iswork;
 
     }
 
@@ -99,12 +101,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isworker){
+
+                if (iswork){
+                    Intent intent = new Intent(mContext, WorkActivity.class);
+                    intent.putExtra("userid", user.getId());
+                    mContext.startActivity(intent);
+                }else if (isworker){
 
                     PopupUserList popupUserList = new PopupUserList();
-//                    Bundle data = new Bundle();//create bundle instance
-//                    data.putString("userid", user.getId());//put string to pass with a key value
-//                    popupUserList.setArguments(data);
+//
                     PopupUserList.userid = user.getId();
                    // popupUserList.show(((FragmentActivity)mContext).getSupportFragmentManager(), "popup");
 

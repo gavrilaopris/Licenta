@@ -24,6 +24,7 @@ import com.example.myapplication.Adapter.EtapeAdapter;
 import com.example.myapplication.Adapter.TaskAdapter;
 import com.example.myapplication.Adapter.UserAdapter;
 import com.example.myapplication.Model.Etapa;
+import com.example.myapplication.Model.ListTasks;
 import com.example.myapplication.Model.Task;
 import com.example.myapplication.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -148,24 +149,43 @@ public class EtapeActivity extends AppCompatActivity {
 
     private void readTask(String etapaid) {
 
-        DatabaseReference reference = db.getReference("Tasks").child(etapaid);
+        DatabaseReference reference = db.getReference("Tasks");
 
+        DatabaseReference ref = db.getReference("ListTasks").child(etapaid);
 
-        reference.addValueEventListener(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                mTasks.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Task task = dataSnapshot.getValue(Task.class);
+                    ListTasks list = dataSnapshot.getValue(ListTasks.class);
+                    String taskid = list.getId();
 
-                    Log.d("TAG", "Value is: " + dataSnapshot.getValue());
+                    reference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    mTasks.add(task);
+                            mTasks.clear();
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Task task = dataSnapshot.getValue(Task.class);
+
+                                Log.d("TAG", "Value is: " + dataSnapshot.getValue());
+
+                                if(taskid.equals(task.getId()))
+                                   mTasks.add(task);
+
+                            }
+                            taskAdapter = new TaskAdapter(EtapeActivity.this, mTasks);
+                            recyclerView.setAdapter(taskAdapter);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
                 }
-                taskAdapter = new TaskAdapter(EtapeActivity.this, mTasks);
-                recyclerView.setAdapter(taskAdapter);
 
             }
 
@@ -174,6 +194,8 @@ public class EtapeActivity extends AppCompatActivity {
 
             }
         });
+
+
 
 
     }

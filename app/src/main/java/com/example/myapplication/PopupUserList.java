@@ -83,15 +83,15 @@ public class PopupUserList extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    private void Update(String userid,String etapaid, String taskid) {
+    private void Update(String userid, String etapaid, String taskid) {
 
-        DatabaseReference reference = db.getReference("TasksList").child(taskid);
+        DatabaseReference reference = db.getReference("TasksList").child(userid);
 
         HashMap<String,String> hashMap = new HashMap<>();
 
-        hashMap.put("userid", userid);
+        hashMap.put("taskid", taskid);
 
-        reference.child(userid).setValue(hashMap);
+        reference.child(taskid).setValue(hashMap);
 
         DatabaseReference ref = db.getReference("Users").child(userid);
 
@@ -100,8 +100,8 @@ public class PopupUserList extends AppCompatDialogFragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user1 = snapshot.getValue(User.class);
                 imageUrl = user1.getImageURL();
-                Toast.makeText(getContext(), imageUrl, Toast.LENGTH_LONG).show();
-                DatabaseReference reference1 = db.getReference("Tasks").child(etapaid).child(taskid);
+//                Toast.makeText(getContext(), imageUrl, Toast.LENGTH_LONG).show();
+                DatabaseReference reference1 = db.getReference("Tasks").child(taskid);
 
                 Map<String,Object> Map = new HashMap<>();
 
@@ -141,7 +141,7 @@ public class PopupUserList extends AppCompatDialogFragment {
                     mUsers.add(user);
 
                 }
-                userAdapter = new UserAdapter(getContext(), mUsers, false, true);
+                userAdapter = new UserAdapter(getContext(), mUsers, false, true, false);
                 recyclerView1.setAdapter(userAdapter);
 
 
