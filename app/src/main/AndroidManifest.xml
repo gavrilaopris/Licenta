@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".EtapeActivity"></activity>
+        <activity android:name=".PopupUserList"></activity>
+        <activity android:name=".popup" />
+        <activity android:name=".EtapeActivity" />
         <activity android:name=".TaskActivity" />
         <activity android:name=".ProjectActivity" />
         <activity android:name=".MessageActivity" />

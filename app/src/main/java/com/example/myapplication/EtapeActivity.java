@@ -22,8 +22,12 @@ import android.widget.TextView;
 
 import com.example.myapplication.Adapter.EtapeAdapter;
 import com.example.myapplication.Adapter.TaskAdapter;
+import com.example.myapplication.Adapter.UserAdapter;
 import com.example.myapplication.Model.Etapa;
 import com.example.myapplication.Model.Task;
+import com.example.myapplication.Model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,15 +39,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class EtapeActivity extends AppCompatActivity {
 
-    private AlertDialog.Builder builder;
-    private AlertDialog alertDialog;
+    private AlertDialog.Builder builder, builder1;
+    private AlertDialog alertDialog, alertDialog1;
 
     private EditText taskname, descrie, dateTextStart, dateTextEnd;
-    private ImageView arrowStart , arrowEnd;
+    private ImageView arrowStart , arrowEnd, choseUser;
     private Button btnCreate;
+
+    private RecyclerView recyclerView1;
+
+    private UserAdapter userAdapter;
+    private List<User> mUsers;
+
+    private String userid;
+
 
     TextView titlu;
     TextView descriere;
@@ -58,11 +71,11 @@ public class EtapeActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
 
-    private String etapaid;
+    public String etapaid;
     private String etapaDescriere;
     private String etapaName;
 
-    Intent intent;
+    Intent intent, intent1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +113,7 @@ public class EtapeActivity extends AppCompatActivity {
         etapaDescriere = intent.getStringExtra("etapaDescriere");
 
 
+
         titlu.setText(etapaName);
         descriere.setText(etapaDescriere);
 
@@ -113,7 +127,8 @@ public class EtapeActivity extends AppCompatActivity {
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewDialog();
+               // createNewDialog();
+                openDialog();
             }
         });
 
@@ -122,9 +137,19 @@ public class EtapeActivity extends AppCompatActivity {
 
     }
 
+    private void openDialog() {
+        popup popup = new popup();
+        Bundle data = new Bundle();//create bundle instance
+        data.putString("etapaid", etapaid);//put string to pass with a key value
+        popup.setArguments(data);
+        popup.show(getSupportFragmentManager(), "popup");
+
+    }
+
     private void readTask(String etapaid) {
 
         DatabaseReference reference = db.getReference("Tasks").child(etapaid);
+
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -153,111 +178,12 @@ public class EtapeActivity extends AppCompatActivity {
 
     }
 
-    private void createNewDialog(){
-
-        builder = new AlertDialog.Builder(this);
-        final View createpopupView = getLayoutInflater().inflate(R.layout.popup_task, null);
-
-        taskname = (EditText) createpopupView.findViewById(R.id.taskname);
-        dateTextStart = (EditText) createpopupView.findViewById(R.id.dateTextStart);
-        dateTextEnd = (EditText) createpopupView.findViewById(R.id.dateTextEnd);
-        descrie = (EditText) createpopupView.findViewById(R.id.descriere);
-
-        arrowStart = (ImageView) createpopupView.findViewById(R.id.arrowStart);
-        arrowEnd = (ImageView) createpopupView.findViewById(R.id.arrowEnd);
-
-        btnCreate = (Button) createpopupView.findViewById(R.id.btnCreate);
-
-        builder.setView(createpopupView);
-        alertDialog = builder.create();
-        alertDialog.show();
-
-        arrowStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(dateTextStart);
-            }
-        });
 
 
-        arrowEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(dateTextEnd);
-            }
-        });
-
-        btnCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final String titlu = taskname.getText().toString();
-                final String startDate = dateTextStart.getText().toString();
-                final String endDate = dateTextEnd.getText().toString();
-                final String desc = descrie.getText().toString();
-
-                if (TextUtils.isEmpty(titlu)) {
-                    taskname.setError("Title is Require");
-                    return;
-                }
-                if (TextUtils.isEmpty(desc)) {
-                    descrie.setError("Description is Require");
-                    return;
-                }
-                if (TextUtils.isEmpty(startDate)) {
-                    dateTextStart.setError("StartDate is Require");
-                    return;
-                }
-                if (TextUtils.isEmpty(endDate)) {
-                    dateTextEnd.setError("EndDate is Require");
-                    return;
-                }
 
 
-                createProject(titlu, desc, startDate, endDate, etapaid);
-            }
-        });
-
-    }
-
-    private void showDatePickerDialog(EditText text){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                new OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.YEAR, year);
-                        c.set(Calendar.MONTH, month);
-                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
 
-                        String date = DateFormat.getDateInstance(DateFormat.DEFAULT).format(c.getTime());
-                        text.setText(date);
-                    }
-                },
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        );
-        datePickerDialog.show();
-    }
 
-    private void createProject(String titlu, String desc, String startDate, String endDate, String etapaid){
 
-        String timeStamp = ""+System.currentTimeMillis();
-        DatabaseReference reference = db.getReference("Tasks").child(etapaid);
-
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("id", timeStamp);
-        hashMap.put("titlu", titlu);
-        hashMap.put("descriere", desc);
-        hashMap.put("startDate", startDate);
-        hashMap.put("endDate", endDate);
-        hashMap.put("status", "toDo");
-
-        reference.push().setValue(hashMap);
-
-    }
 }

@@ -3,6 +3,7 @@ package com.example.myapplication.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.EtapeActivity;
 import com.example.myapplication.MessageActivity;
 import com.example.myapplication.Model.Chat;
 import com.example.myapplication.Model.User;
+import com.example.myapplication.PopupUserList;
 import com.example.myapplication.R;
+import com.example.myapplication.popup;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,23 +35,27 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private final Context mContext;
     private final List<User> mUsers;
-    private final boolean ischat;
+    private final boolean ischat, isworker;
 
     String theLastMessage;
+
+    FirebaseDatabase db;
 
     StorageReference storageReference;
     FirebaseAuth fAuth;
 
-    public UserAdapter(Context mContext, List<User> mUsers, boolean ischat){
+    public UserAdapter(Context mContext, List<User> mUsers, boolean ischat, boolean isworker){
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.ischat = ischat;
+        this.isworker = isworker;
 
     }
 
@@ -59,6 +69,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
+        db = FirebaseDatabase.getInstance();
         final User user = mUsers.get(position);
         holder.username.setText(user.getFName());
 
@@ -88,9 +99,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, MessageActivity.class);
-                intent.putExtra("userid", user.getId());
-                mContext.startActivity(intent);
+                if (isworker){
+
+                    PopupUserList popupUserList = new PopupUserList();
+                    Bundle data = new Bundle();//create bundle instance
+                    data.putString("userid", user.getId());//put string to pass with a key value
+                    popupUserList.setArguments(data);
+                    popupUserList.show(((FragmentActivity)mContext).getSupportFragmentManager(), "popup");
+
+
+
+                }else {
+                    Intent intent = new Intent(mContext, MessageActivity.class);
+                    intent.putExtra("userid", user.getId());
+                    mContext.startActivity(intent);
+                }
             }
         });
 

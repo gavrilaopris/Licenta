@@ -116,7 +116,7 @@ public class UsersFragment extends Fragment {
                            mUsers.add(user);
                        }
                    }
-                   userAdapter = new UserAdapter(getContext(), mUsers, false);
+                   userAdapter = new UserAdapter(getContext(), mUsers, false, false);
                    recyclerView.setAdapter(userAdapter);
                }
 
@@ -154,7 +154,7 @@ public class UsersFragment extends Fragment {
                             mUsers.add(user);
                         }
                     }
-                    userAdapter = new UserAdapter(getContext(), mUsers, false);
+                    userAdapter = new UserAdapter(getContext(), mUsers, false, false);
                     recyclerView.setAdapter(userAdapter);
 
                 }
