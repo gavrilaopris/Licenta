@@ -4,20 +4,20 @@ public class Task {
 
     private String id;
     private String titlu;
-    private String userid;
+    private String imageUrl;
     private String descriere;
     private String endDate;
     private String startDate;
     private String status;
 
-    public Task(String id, String titlu, String descriere, String endDate, String startDate, String status, String userid) {
+    public Task(String id, String titlu, String descriere, String endDate, String startDate, String status, String imageUrl) {
         this.id = id;
         this.titlu = titlu;
         this.descriere = descriere;
         this.endDate = endDate;
         this.startDate = startDate;
         this.status = status;
-        this.userid = userid;
+        this.imageUrl = imageUrl;
     }
 
     public Task() {
@@ -71,11 +71,11 @@ public class Task {
         this.status = status;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

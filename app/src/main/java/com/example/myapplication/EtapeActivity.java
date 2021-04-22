@@ -112,7 +112,7 @@ public class EtapeActivity extends AppCompatActivity {
         etapaName = intent.getStringExtra("etapaTitlu");
         etapaDescriere = intent.getStringExtra("etapaDescriere");
 
-
+        PopupUserList.etapaid= etapaid;
 
         titlu.setText(etapaName);
         descriere.setText(etapaDescriere);

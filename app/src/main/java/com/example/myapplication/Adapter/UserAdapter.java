@@ -102,10 +102,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 if (isworker){
 
                     PopupUserList popupUserList = new PopupUserList();
-                    Bundle data = new Bundle();//create bundle instance
-                    data.putString("userid", user.getId());//put string to pass with a key value
-                    popupUserList.setArguments(data);
-                    popupUserList.show(((FragmentActivity)mContext).getSupportFragmentManager(), "popup");
+//                    Bundle data = new Bundle();//create bundle instance
+//                    data.putString("userid", user.getId());//put string to pass with a key value
+//                    popupUserList.setArguments(data);
+                    PopupUserList.userid = user.getId();
+                   // popupUserList.show(((FragmentActivity)mContext).getSupportFragmentManager(), "popup");
 
 
 

@@ -239,18 +239,18 @@ public class popup extends AppCompatDialogFragment {
     private void createProject(String titlu, String desc, String startDate, String endDate, String etapaid){
 
         String timeStamp = ""+System.currentTimeMillis();
-        DatabaseReference reference = db.getReference("Tasks").child(etapaid);
+        DatabaseReference reference = db.getReference("Tasks").child(etapaid).child(timeStamp);
 
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("id", timeStamp);
         hashMap.put("titlu", titlu);
-        hashMap.put("userid", "default");
+        hashMap.put("imageUrl", "default");
         hashMap.put("descriere", desc);
         hashMap.put("startDate", startDate);
         hashMap.put("endDate", endDate);
         hashMap.put("status", "toDo");
 
-        reference.push().setValue(hashMap);
+        reference.setValue(hashMap);
 
     }
 }

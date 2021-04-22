@@ -25,6 +25,7 @@ import com.example.myapplication.PopupUserList;
 import com.example.myapplication.R;
 import com.example.myapplication.TaskActivity;
 import com.example.myapplication.popup;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +62,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         String date = task.getStartDate()+" - "+task.getEndDate();
 
         holder.projectname.setText(task.getTitlu());
+
+        if (task.getImageUrl().equals("default")){
+            holder.userImage.setImageResource(R.mipmap.ic_launcher);
+        }else{
+            Picasso.get().load(task.getImageUrl()).into(holder.userImage);
+
+        }
+
         holder.Date.setText(date);
         holder.status.setText(task.getStatus());
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,9 +89,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 PopupUserList popupUserList = new PopupUserList();
-                Bundle data = new Bundle();//create bundle instance
-                data.putString("taskid", task.getId());//put string to pass with a key value
-                popupUserList.setArguments(data);
+//                Bundle data = new Bundle();//create bundle instance
+//                data.putString("taskid", task.getId());//put string to pass with a key value
+                PopupUserList.taskid= task.getId();
+//                popupUserList.setArguments(data);
                 popupUserList.show(((FragmentActivity)mContext).getSupportFragmentManager(), "popup");
             }
         });

@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 
 public class PopupUserList extends AppCompatDialogFragment {
@@ -39,7 +39,9 @@ public class PopupUserList extends AppCompatDialogFragment {
 
     FirebaseDatabase db;
 
-    String userid, taskid;
+   public static String userid, taskid, etapaid;
+
+    private String imageUrl;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -63,8 +65,8 @@ public class PopupUserList extends AppCompatDialogFragment {
 
         readUsers();
 
-        taskid = getArguments().getString("taskid");
-        userid = getArguments().getString("userid");
+//        taskid = getArguments().getString("taskid");
+//        userid = getArguments().getString("userid");
 
 
         Toast.makeText(getContext(), ""+userid, Toast.LENGTH_SHORT).show();
@@ -72,7 +74,7 @@ public class PopupUserList extends AppCompatDialogFragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Update(userid,taskid);
+                Update(userid,etapaid,taskid);
             }
         });
 
@@ -81,7 +83,7 @@ public class PopupUserList extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    private void Update(String userid, String taskid) {
+    private void Update(String userid,String etapaid, String taskid) {
 
         DatabaseReference reference = db.getReference("TasksList").child(taskid);
 
@@ -90,6 +92,34 @@ public class PopupUserList extends AppCompatDialogFragment {
         hashMap.put("userid", userid);
 
         reference.child(userid).setValue(hashMap);
+
+        DatabaseReference ref = db.getReference("Users").child(userid);
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user1 = snapshot.getValue(User.class);
+                imageUrl = user1.getImageURL();
+                Toast.makeText(getContext(), imageUrl, Toast.LENGTH_LONG).show();
+                DatabaseReference reference1 = db.getReference("Tasks").child(etapaid).child(taskid);
+
+                Map<String,Object> Map = new HashMap<>();
+
+                Map.put("imageUrl", imageUrl);
+
+
+                reference1.updateChildren(Map);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
     }
 
     private void readUsers() {
