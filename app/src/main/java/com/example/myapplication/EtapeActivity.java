@@ -27,6 +27,7 @@ import com.example.myapplication.Model.Etapa;
 import com.example.myapplication.Model.ListTasks;
 import com.example.myapplication.Model.Task;
 import com.example.myapplication.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -99,7 +100,6 @@ public class EtapeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-
         recyclerView.setLayoutManager(linearLayoutManager);
 
         titlu = findViewById(R.id.titlu);
@@ -123,12 +123,16 @@ public class EtapeActivity extends AppCompatActivity {
 
         addTask = findViewById(R.id.addTask);
 
+       // mTasks.clear();
         readTask(etapaid);
+
 
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // createNewDialog();
+              //  mTasks.removeAll(mTasks);
+
                 openDialog();
             }
         });
@@ -149,33 +153,31 @@ public class EtapeActivity extends AppCompatActivity {
 
     private void readTask(String etapaid) {
 
+
+        //mTasks.removeAll(mTasks);
         DatabaseReference reference = db.getReference("Tasks");
 
-        DatabaseReference ref = db.getReference("ListTasks").child(etapaid);
+       // DatabaseReference ref = db.getReference("ListTasks").child(etapaid);
 
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ListTasks list = dataSnapshot.getValue(ListTasks.class);
-                    String taskid = list.getId();
+
 
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                           mTasks.clear();
 
-                            mTasks.clear();
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Task task = dataSnapshot.getValue(Task.class);
 
                                 Log.d("TAG", "Value is: " + dataSnapshot.getValue());
 
-                                if(taskid.equals(task.getId()))
+                                if(task.getEtapaID().equals(etapaid))
                                    mTasks.add(task);
 
                             }
                             taskAdapter = new TaskAdapter(EtapeActivity.this, mTasks);
                             recyclerView.setAdapter(taskAdapter);
+
 
                         }
 
@@ -185,20 +187,15 @@ public class EtapeActivity extends AppCompatActivity {
                         }
                     });
 
-                }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
 
 
 
     }
+
+
+
 
 
 

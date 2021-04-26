@@ -9,8 +9,10 @@ public class Task {
     private String endDate;
     private String startDate;
     private String status;
+    private String etapaID;
 
-    public Task(String id, String titlu, String descriere, String endDate, String startDate, String status, String imageUrl) {
+
+    public Task(String id, String titlu, String descriere, String endDate, String startDate, String status, String imageUrl, String etapaID) {
         this.id = id;
         this.titlu = titlu;
         this.descriere = descriere;
@@ -18,6 +20,7 @@ public class Task {
         this.startDate = startDate;
         this.status = status;
         this.imageUrl = imageUrl;
+        this.etapaID = etapaID;
     }
 
     public Task() {
@@ -77,5 +80,13 @@ public class Task {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getEtapaID() {
+        return etapaID;
+    }
+
+    public void setEtapaID(String etapaID) {
+        this.etapaID = etapaID;
     }
 }

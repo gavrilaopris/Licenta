@@ -88,17 +88,19 @@ public class WorkActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mTasks.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
 
                     TasksList list = dataSnapshot.getValue(TasksList.class);
                     String idtask = list.getTaskid();
+                   // mTasks.clear();
 
 
                     ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                           // mTasks.clear();
 
-                            mTasks.clear();
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Task task = dataSnapshot.getValue(Task.class);
 
