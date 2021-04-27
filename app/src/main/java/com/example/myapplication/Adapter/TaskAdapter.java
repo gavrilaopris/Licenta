@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,18 +28,21 @@ import com.example.myapplication.PopupUserList;
 import com.example.myapplication.R;
 import com.example.myapplication.TaskActivity;
 import com.example.myapplication.popup;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
-    private AlertDialog.Builder builder ;
-    private AlertDialog alertDialog;
-
-    private RecyclerView recyclerView1;
-
+    FirebaseDatabase db;
 
     private final Context mContext;
     private final List<Task> mTasks;
@@ -56,6 +62,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.ViewHolder holder, int position) {
+
+        db = FirebaseDatabase.getInstance();
 
         final Task task = mTasks.get(position);
 
@@ -97,7 +105,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             }
         });
 
+        holder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, holder, position, task.getId());
+            }
+        });
+
+
     }
+
 
 
     @Override
@@ -105,12 +122,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return mTasks.size();
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView projectname;
         public TextView Date;
         public TextView status;
         public ImageView userImage;
+        public ImageView menu;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -120,8 +140,41 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             Date = itemView.findViewById(R.id.Date);
             status = itemView.findViewById(R.id.status);
             userImage = itemView.findViewById(R.id.userImage);
+            menu = itemView.findViewById(R.id.menu);
         }
     }
+
+    private void showPopupMenu(View v, ViewHolder holder, int position, String taskid) {
+        PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.hide:
+                        DatabaseReference reference = db.getReference("Tasks").child(taskid);
+
+                        Map<String,Object> Map = new HashMap<>();
+
+                        Map.put("visibility", "GONE");
+
+
+                        reference.updateChildren(Map);
+
+                        return true;
+                    case R.id.delete:
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
+
+
+
 
 
 

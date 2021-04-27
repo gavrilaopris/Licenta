@@ -171,7 +171,7 @@ public class EtapeActivity extends AppCompatActivity {
 
                                 Log.d("TAG", "Value is: " + dataSnapshot.getValue());
 
-                                if(task.getEtapaID().equals(etapaid))
+                                if(task.getEtapaID().equals(etapaid) && task.getVisibility().equals("VISIBLE"))
                                    mTasks.add(task);
 
                             }

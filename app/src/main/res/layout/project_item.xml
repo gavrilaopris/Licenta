@@ -61,6 +61,15 @@
 
         />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/menu"
+        android:src="@drawable/ic_vertmenudots"
+        android:layout_toEndOf="@+id/Date"
+        android:layout_centerVertical="true"/>
+
+
 
 
 
