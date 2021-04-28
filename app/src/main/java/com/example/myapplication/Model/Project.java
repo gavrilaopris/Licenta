@@ -10,12 +10,13 @@ public class Project {
     private String endDate;
     private String startDate;
     private String status;
+    private String visibility;
 
 
 
 
 
-    public Project(String id, String name, String descriere, String endDate, String startDate, String status) {
+    public Project(String id, String name, String descriere, String endDate, String startDate, String status, String visibility) {
 
         this.id = id;
         this.name = name;
@@ -24,6 +25,7 @@ public class Project {
         this.endDate = endDate;
         this.startDate = startDate;
         this.status = status;
+        this.visibility = visibility;
 
     }
 
@@ -76,5 +78,13 @@ public class Project {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 }

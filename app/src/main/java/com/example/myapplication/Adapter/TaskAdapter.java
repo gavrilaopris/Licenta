@@ -108,7 +108,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(v, holder, position, task.getId());
+                showPopupMenu(v, task.getId());
             }
         });
 
@@ -144,7 +144,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         }
     }
 
-    private void showPopupMenu(View v, ViewHolder holder, int position, String taskid) {
+    private void showPopupMenu(View v, String taskid) {
         PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
         popupMenu.inflate(R.menu.popup_menu);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -163,6 +163,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
                         return true;
                     case R.id.delete:
+                         reference = db.getReference("Tasks").child(taskid);
+                         reference.removeValue();
+
                         return true;
 
                     default:

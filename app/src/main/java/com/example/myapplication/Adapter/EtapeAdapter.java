@@ -3,20 +3,29 @@ package com.example.myapplication.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.EtapeActivity;
 import com.example.myapplication.Model.Etapa;
 import com.example.myapplication.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EtapeAdapter extends RecyclerView.Adapter<EtapeAdapter.ViewHolder> {
+
+    FirebaseDatabase db;
 
     private final Context mContext;
     private final List<Etapa> mEtape;
@@ -37,6 +46,8 @@ public class EtapeAdapter extends RecyclerView.Adapter<EtapeAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull EtapeAdapter.ViewHolder holder, int position) {
 
+        db = FirebaseDatabase.getInstance();
+
         final Etapa etapa = mEtape.get(position);
 
         String date = etapa.getStartDate()+" - "+etapa.getEndDate();
@@ -56,6 +67,13 @@ public class EtapeAdapter extends RecyclerView.Adapter<EtapeAdapter.ViewHolder> 
             }
         });
 
+        holder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, etapa.getId());
+            }
+        });
+
     }
 
     @Override
@@ -68,6 +86,7 @@ public class EtapeAdapter extends RecyclerView.Adapter<EtapeAdapter.ViewHolder> 
         public TextView projectname;
         public TextView Date;
         public TextView status;
+        public ImageView menu;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -76,6 +95,39 @@ public class EtapeAdapter extends RecyclerView.Adapter<EtapeAdapter.ViewHolder> 
             projectname = itemView.findViewById(R.id.projectname);
             Date = itemView.findViewById(R.id.Date);
             status = itemView.findViewById(R.id.status);
+            menu = itemView.findViewById(R.id.menu);
         }
+    }
+
+    private void showPopupMenu(View v, String etapaid) {
+        PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.hide:
+                        DatabaseReference reference = db.getReference("Etape").child(etapaid);
+
+                        Map<String,Object> Map = new HashMap<>();
+
+                        Map.put("visibility", "GONE");
+
+
+                        reference.updateChildren(Map);
+
+                        return true;
+                    case R.id.delete:
+                        reference = db.getReference("Etape").child(etapaid);
+                        reference.removeValue();
+
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
+        popupMenu.show();
     }
 }

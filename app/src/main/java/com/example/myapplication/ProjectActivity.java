@@ -127,7 +127,7 @@ public class ProjectActivity extends AppCompatActivity {
 
     private void readEtape(String projectid) {
 
-        DatabaseReference reference = db.getReference("Etape").child(projectid);
+        DatabaseReference reference = db.getReference("Etape");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -139,6 +139,7 @@ public class ProjectActivity extends AppCompatActivity {
 
                     Log.d("TAG", "Value is: " + dataSnapshot.getValue());
 
+                    if(etapa.getProjectID().equals(projectid) && etapa.getVisibility().equals("VISIBLE"))
                     mEtape.add(etapa);
 
                 }
@@ -249,17 +250,19 @@ public class ProjectActivity extends AppCompatActivity {
     private void createProject(String titlu, String desc, String startDate, String endDate, String projectid){
 
         String timeStamp = ""+System.currentTimeMillis();
-        DatabaseReference reference = db.getReference("Etape").child(projectid);
+        DatabaseReference reference = db.getReference("Etape").child(timeStamp);
 
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("id", timeStamp);
         hashMap.put("titlu", titlu);
+        hashMap.put("projectID", projectid);
         hashMap.put("descriere", desc);
         hashMap.put("startDate", startDate);
         hashMap.put("endDate", endDate);
         hashMap.put("status", "toDo");
+        hashMap.put("visibility", "VISIBLE");
 
-        reference.push().setValue(hashMap);
+        reference.setValue(hashMap);
 
     }
 

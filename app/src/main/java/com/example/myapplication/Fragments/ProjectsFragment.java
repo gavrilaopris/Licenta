@@ -106,6 +106,7 @@ public class ProjectsFragment extends Fragment {
 
                     Log.d("TAG", "Value is: " + dataSnapshot.getValue());
 
+                    if(project.getVisibility().equals("VISIBLE"))
                         mProjects.add(project);
 
                 }
@@ -214,7 +215,7 @@ public class ProjectsFragment extends Fragment {
     private void createProject(String name, String desc, String startDate, String endDate){
 
         String timeStamp = ""+System.currentTimeMillis();
-        DatabaseReference reference = db.getReference("Proiecte");
+        DatabaseReference reference = db.getReference("Proiecte").child(timeStamp);
 
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("id", timeStamp);
@@ -223,8 +224,9 @@ public class ProjectsFragment extends Fragment {
         hashMap.put("startDate", startDate);
         hashMap.put("endDate", endDate);
         hashMap.put("status", "toDo");
+        hashMap.put("visibility", "VISIBLE");
 
-        reference.push().setValue(hashMap);
+        reference.setValue(hashMap);
 
     }
 

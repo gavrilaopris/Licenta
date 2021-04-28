@@ -8,14 +8,18 @@ public class Etapa {
     private String endDate;
     private String startDate;
     private String status;
+    private String projectID;
+    private String visibility;
 
-    public Etapa(String id, String titlu, String descriere, String endDate, String startDate, String status) {
+    public Etapa(String id, String titlu, String descriere, String endDate, String startDate, String status, String projectID, String visibility) {
         this.id = id;
         this.titlu = titlu;
         this.descriere = descriere;
         this.endDate = endDate;
         this.startDate = startDate;
         this.status = status;
+        this.projectID = projectID;
+        this.visibility = visibility;
     }
 
     public Etapa() {
@@ -67,5 +71,21 @@ public class Etapa {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(String projectID) {
+        this.projectID = projectID;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 }
