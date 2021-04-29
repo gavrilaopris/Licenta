@@ -123,6 +123,15 @@
                     android:layout_marginStart="22dp"
                     android:textAlignment="center"
                     />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_eye"
+                    android:id="@+id/eye"
+                    android:layout_toEndOf="@+id/date"
+                    android:layout_marginStart="52dp"/>
+
             </RelativeLayout>
 
             <RelativeLayout

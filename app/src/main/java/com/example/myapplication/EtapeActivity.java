@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class EtapeActivity extends AppCompatActivity {
@@ -68,8 +70,10 @@ public class EtapeActivity extends AppCompatActivity {
 
     private TaskAdapter taskAdapter;
     private List<Task> mTasks;
+    private ArrayList<String> str;
 
     private ImageView addTask;
+    ImageButton eye;
 
     FirebaseDatabase db;
 
@@ -104,6 +108,7 @@ public class EtapeActivity extends AppCompatActivity {
 
         titlu = findViewById(R.id.titlu);
         descriere = findViewById(R.id.descriere);
+        eye = findViewById(R.id.eye);
 
 
 
@@ -120,6 +125,7 @@ public class EtapeActivity extends AppCompatActivity {
 
 
         mTasks = new ArrayList<Task>();
+        str = new ArrayList<String>();
 
         addTask = findViewById(R.id.addTask);
 
@@ -137,9 +143,60 @@ public class EtapeActivity extends AppCompatActivity {
             }
         });
 
+        eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateVisibility(etapaid);
+            }
+        });
 
 
 
+
+    }
+
+    private void updateVisibility(String etapaid) {
+        DatabaseReference ref = db.getReference("Tasks");
+
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                str.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Task pro = dataSnapshot.getValue(Task.class);
+                    if (pro.getEtapaID().equals(etapaid))
+                    str.add(pro.getId());
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        String str_a[]= new String[str.size()];
+
+        for(int j = 0; j< str.size(); j++){
+            str_a[j] = str.get(j);
+        }
+
+        for (String id : str_a) {
+
+            DatabaseReference refe = db.getReference("Tasks").child(id);
+
+            Map<String, Object> Map = new HashMap<>();
+
+            Map.put("visibility", "VISIBLE");
+            refe.updateChildren(Map);
+
+        }
     }
 
     private void openDialog() {

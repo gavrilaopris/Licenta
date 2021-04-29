@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -25,6 +26,7 @@ import com.example.myapplication.Adapter.ProjectAdapter;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.Model.Project;
 import com.example.myapplication.R;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ProjectsFragment extends Fragment {
@@ -47,11 +50,14 @@ public class ProjectsFragment extends Fragment {
     private EditText projectname, descriere, dateTextStart, dateTextEnd;
     private ImageView arrowStart , arrowEnd;
     private Button btnCreate;
+    private ImageButton eye;
 
     private RecyclerView recyclerView1;
 
     private ProjectAdapter projectAdapter;
     private List<Project> mProjects;
+
+    private ArrayList<String> str;
 
     private ImageView addProject;
 
@@ -77,8 +83,10 @@ public class ProjectsFragment extends Fragment {
         recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mProjects = new ArrayList<Project>();
+        str = new ArrayList<String>();
 
         addProject = view.findViewById(R.id.addProject);
+        eye = view.findViewById(R.id.eye);
 
         readProjects();
 
@@ -89,8 +97,55 @@ public class ProjectsFragment extends Fragment {
             }
         });
 
+        eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateVisibility();
+            }
+        });
+
         
         return view;
+    }
+
+    private void updateVisibility() {
+
+        DatabaseReference ref = db.getReference("Proiecte");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                str.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Project pro = dataSnapshot.getValue(Project.class);
+                    str.add(pro.getId());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        String str_a[]= new String[str.size()];
+
+        for(int j = 0; j< str.size(); j++){
+            str_a[j] = str.get(j);
+        }
+
+        for (String id : str_a) {
+
+            DatabaseReference refe = db.getReference("Proiecte").child(id);
+
+            Map<String, Object> Map = new HashMap<>();
+
+            Map.put("visibility", "VISIBLE");
+            refe.updateChildren(Map);
+        }
+
+
     }
 
     private void readProjects() {

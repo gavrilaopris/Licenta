@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.example.myapplication.Adapter.EtapeAdapter;
 import com.example.myapplication.Adapter.ProjectAdapter;
 import com.example.myapplication.Adapter.TaskAdapter;
 import com.example.myapplication.Model.Etapa;
+import com.example.myapplication.Model.ListTasks;
 import com.example.myapplication.Model.Project;
 import com.example.myapplication.Model.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProjectActivity extends AppCompatActivity {
 
@@ -48,6 +51,7 @@ public class ProjectActivity extends AppCompatActivity {
     private EditText stagename, descrie, dateTextStart, dateTextEnd;
     private ImageView arrowStart , arrowEnd;
     private Button btnCreate;
+    private ImageButton eye;
 
 
     TextView titlu;
@@ -57,6 +61,9 @@ public class ProjectActivity extends AppCompatActivity {
 
     private EtapeAdapter etapeAdapter;
     private List<Etapa> mEtape;
+
+    private ArrayList<String> str;
+
 
     private ImageView addEtapa;
 
@@ -109,8 +116,10 @@ public class ProjectActivity extends AppCompatActivity {
         descriere.setText(projectDescriere);
 
         mEtape = new ArrayList<Etapa>();
+        str = new ArrayList<String>();
 
         addEtapa = findViewById(R.id.addEtapa);
+        eye = findViewById(R.id.eye);
 
         readEtape(projectid);
 
@@ -122,6 +131,60 @@ public class ProjectActivity extends AppCompatActivity {
         });
 
 
+        eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateVisibility(projectid);
+            }
+        });
+
+
+
+
+    }
+
+    private void updateVisibility(String projectid) {
+        DatabaseReference ref = db.getReference("Etape");
+
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                str.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Etapa pro = dataSnapshot.getValue(Etapa.class);
+                    if (pro.getProjectID().equals(projectid))
+                    str.add(pro.getId());
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        String str_a[]= new String[str.size()];
+
+        for(int j = 0; j< str.size(); j++){
+            str_a[j] = str.get(j);
+        }
+
+        for (String id : str_a) {
+
+            DatabaseReference refe = db.getReference("Etape").child(id);
+
+            Map<String, Object> Map = new HashMap<>();
+
+            Map.put("visibility", "VISIBLE");
+            refe.updateChildren(Map);
+
+        }
     }
 
 
@@ -265,6 +328,7 @@ public class ProjectActivity extends AppCompatActivity {
         reference.setValue(hashMap);
 
     }
+
 
 
 }
