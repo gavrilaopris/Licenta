@@ -84,6 +84,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.messageIv.setVisibility(View.GONE);
             holder.document.setVisibility(View.VISIBLE);
 
+
+
             if(chat.getExtension().equals("application/pdf")) {
                 fileExtension = ".pdf";
             }else if(chat.getExtension().equals("text/plain")){
@@ -118,8 +120,35 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         if (position == mChat.size()-1){
             if (chat.isIsseen()){
                 holder.txt_seen.setText("Seen");
+//                if (chat.getType().equals("text")){
+//                    RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    params.addRule(RelativeLayout.BELOW, R.id.show_message);
+//                    holder.txt_seen.setLayoutParams(params);
+//                }
+//                if (chat.getType().equals("image")){
+//                    RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    params.addRule(RelativeLayout.BELOW, R.id.messageIv);
+//                    holder.txt_seen.setLayoutParams(params);
+//                }else if(chat.getType().equals("document")){
+//                    RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    params.addRule(RelativeLayout.BELOW, R.id.document);
+//                    holder.txt_seen.setLayoutParams(params);
+//                }
             } else {
                 holder.txt_seen.setText("Delivered");
+
+                if (chat.getType().equals("image")){
+                    RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.addRule(RelativeLayout.BELOW, R.id.messageIv);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_END);
+                    holder.txt_seen.setLayoutParams(params);
+                }else if(chat.getType().equals("document")){
+                    RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.addRule(RelativeLayout.BELOW, R.id.document);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_END);
+                    holder.txt_seen.setLayoutParams(params);
+                }
+
             }
 
         } else {
