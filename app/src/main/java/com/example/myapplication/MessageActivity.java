@@ -49,6 +49,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
@@ -108,6 +109,10 @@ public class MessageActivity extends AppCompatActivity {
     private static final int IMAGE_PICK_CAMERA_CODE = 300;
     private static final int IMAGE_PICK_GALLERY_CODE = 400;
 
+    private static final int PICK_FILE = 1;
+
+    ProgressDialog progressDialog;
+
     //permissions array
     String[] cameraPermission;
     String[] storagePermission;
@@ -130,7 +135,10 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        db = FirebaseDatabase.getInstance();
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Processing Please wait.....");
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -215,10 +223,10 @@ public class MessageActivity extends AppCompatActivity {
 
     private void showImagePickDialog() {
 
-        String[] options = {"Camera", "Gallery"};
+        String[] options = {"Camera", "Gallery", "Storage"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chose Image From");
+        builder.setTitle("Chose From");
 
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
@@ -239,6 +247,12 @@ public class MessageActivity extends AppCompatActivity {
                     }else{
                         pickFromGallery();
                     }
+
+                }
+                if (which == 2){
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("*/*");
+                    startActivityForResult(intent,PICK_FILE);
 
                 }
             }
@@ -286,6 +300,8 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
+        hashMap.put("name", "default");
+        hashMap.put("extension", "default");
         hashMap.put("isseen", false);
         hashMap.put("type", "text");
 
@@ -521,8 +537,61 @@ public class MessageActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            else if (requestCode == PICK_FILE){
+                Uri File = data.getData();
+
+                AddFile(File);
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void AddFile(Uri uri) {
+
+        progressDialog.show();
+
+        String fileNameAndPath = "ChatFiles/"+"file"+uri.getLastPathSegment();
+
+        StorageReference folder = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
+
+
+        folder.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                String name = taskSnapshot.getStorage().getName();
+                //Task<StorageMetadata> metaext = taskSnapshot.getStorage().getMetadata();
+                while (!uriTask.isSuccessful());
+                String downloadUri = uriTask.getResult().toString();
+                //String ext = metaext.getResult().getContentType();
+
+                if (uriTask.isSuccessful()){
+                    folder.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                        @Override
+                        public void onSuccess(StorageMetadata storageMetadata) {
+                            String ext = storageMetadata.getContentType();
+                            // String name = storageMetadata.getName();
+                            DatabaseReference databaseReference = db.getReference("Chats");
+                            HashMap<String,Object> hashMap = new HashMap<>();
+                            hashMap.put("sender", fuser.getUid());
+                            hashMap.put("receiver", userid);
+                            hashMap.put("message", downloadUri);
+                            hashMap.put("name", name);
+                            hashMap.put("extension", ext);
+                            hashMap.put("isseen", false);
+                            hashMap.put("type", "document");
+                            databaseReference.push().setValue(hashMap);
+                            progressDialog.dismiss();
+                        }
+                    });
+
+
+
+                }
+
+            }
+        });
     }
 
     private void sendImageMessage(Uri image_rui) throws IOException {
@@ -557,6 +626,8 @@ public class MessageActivity extends AppCompatActivity {
                     hashMap.put("sender", fuser.getUid());
                     hashMap.put("receiver", userid);
                     hashMap.put("message", downloadUri);
+                    hashMap.put("name", "default");
+                    hashMap.put("extension", "default");
                     hashMap.put("isseen", false);
                     hashMap.put("type", "image");
                     databaseReference.push().setValue(hashMap);

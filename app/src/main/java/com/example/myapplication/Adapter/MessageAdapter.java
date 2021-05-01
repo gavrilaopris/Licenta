@@ -1,11 +1,15 @@
 package com.example.myapplication.Adapter;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +26,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
     public static final int MSG_TYPE_LEFT = 0;
@@ -29,6 +35,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     private final Context mContext;
     private final List<Chat> mChat;
     private final String imageurl;
+    String fileExtension;
 
     StorageReference storageReference;
     FirebaseUser fUser;
@@ -64,12 +71,40 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         if (type.equals("text")){
             holder.show_message.setVisibility(View.VISIBLE);
             holder.messageIv.setVisibility(View.GONE);
+            holder.document.setVisibility(View.GONE);
 
             holder.show_message.setText(chat.getMessage());
-        }else {
+        }else if (type.equals("image")){
             holder.show_message.setVisibility(View.GONE);
+            holder.document.setVisibility(View.GONE);
             holder.messageIv.setVisibility(View.VISIBLE);
             Picasso.get().load(message).placeholder(R.drawable.ic_image_black).into(holder.messageIv);
+        }else if (type.equals("document")){
+            holder.show_message.setVisibility(View.GONE);
+            holder.messageIv.setVisibility(View.GONE);
+            holder.document.setVisibility(View.VISIBLE);
+
+            if(chat.getExtension().equals("application/pdf")) {
+                fileExtension = ".pdf";
+            }else if(chat.getExtension().equals("text/plain")){
+                fileExtension = ".txt";
+                holder.imageFilePdf.setVisibility(View.INVISIBLE);
+                holder.imageFileTXT.setVisibility(View.VISIBLE);
+            }else{
+                fileExtension = ".docx";
+                holder.imageFilePdf.setVisibility(View.INVISIBLE);
+                holder.imageFileDocx.setVisibility(View.VISIBLE);
+            }
+
+            holder.fileName.setText(chat.getName());
+            holder.fileExt.setText(fileExtension);
+
+            holder.downBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    downloadFile(holder.fileName.getContext(), chat.getName(), fileExtension, DIRECTORY_DOWNLOADS, chat.getMessage());
+                }
+            });
         }
 
 
@@ -94,6 +129,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     }
 
+    private void downloadFile(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
+
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+        Uri uri = Uri.parse(url);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(context, destinationDirectory, fileName + fileExtension);
+
+        downloadManager.enqueue(request);
+
+    }
+
     @Override
     public int getItemCount() {
         return mChat.size();
@@ -106,6 +155,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public TextView txt_seen;
 
+        //document
+        public RelativeLayout document;
+        public TextView fileName;
+        public TextView fileExt;
+        public ImageButton downBtn;
+        public ImageView imageFilePdf;
+        public ImageView imageFileDocx;
+        public ImageView imageFileTXT;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -113,6 +171,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             profile_image = itemView.findViewById(R.id.profile_image);
             txt_seen = itemView.findViewById(R.id.txt_seen);
             messageIv = itemView.findViewById(R.id.messageIv);
+
+            //document
+            document = itemView.findViewById(R.id.document);
+            fileName = itemView.findViewById(R.id.fileName);
+            fileExt = itemView.findViewById(R.id.fileExt);
+            downBtn = itemView.findViewById(R.id.downBtn);
+            imageFilePdf = itemView.findViewById(R.id.imageFilePdf);
+            imageFileDocx = itemView.findViewById(R.id.imageFileDocx);
+            imageFileTXT = itemView.findViewById(R.id.imageFileTXT);
         }
     }
 

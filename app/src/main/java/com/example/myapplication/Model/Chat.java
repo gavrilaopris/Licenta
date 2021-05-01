@@ -7,13 +7,17 @@ public class Chat {
     private String message;
     private boolean isseen;
     private String type;
+    private String name;
+    private String extension;
 
-    public Chat(String sender, String receiver, String message, boolean isseen, String type) {
+    public Chat(String sender, String receiver, String message, boolean isseen, String type, String name, String extension) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.isseen = isseen;
         this.type = type;
+        this.name = name;
+        this.extension = extension;
     }
 
     public Chat() {
@@ -57,5 +61,21 @@ public class Chat {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }

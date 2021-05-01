@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -162,6 +164,7 @@ public class TaskActivity extends AppCompatActivity {
 
         if (requestCode == PICK_FILE){
             if (resultCode == RESULT_OK){
+
                 Uri File = data.getData();
 
                 AddFile(File);
