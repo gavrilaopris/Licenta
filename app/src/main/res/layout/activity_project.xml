@@ -50,6 +50,15 @@
         android:textColor="@color/black"
         />
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:id="@+id/ganttBtn"
+        android:src="@drawable/ic_gantt"
+        android:layout_alignParentEnd="true"
+        android:paddingEnd="10dp"
+        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

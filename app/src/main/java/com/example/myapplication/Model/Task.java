@@ -11,9 +11,11 @@ public class Task {
     private String status;
     private String etapaID;
     private String visibility;
+    private String statusDate;
+    private String percentageComplete;
 
 
-    public Task(String id, String titlu, String descriere, String endDate, String startDate, String status, String imageUrl, String etapaID, String visibility) {
+    public Task(String id, String titlu, String descriere, String endDate, String startDate, String status, String imageUrl, String etapaID, String visibility, String statusDate, String percentageComplete) {
         this.id = id;
         this.titlu = titlu;
         this.descriere = descriere;
@@ -23,6 +25,8 @@ public class Task {
         this.imageUrl = imageUrl;
         this.etapaID = etapaID;
         this.visibility = visibility;
+        this.statusDate = statusDate;
+        this.percentageComplete = percentageComplete;
     }
 
     public Task() {
@@ -98,5 +102,21 @@ public class Task {
 
     public void setVisibility(String visibility) {
         this.visibility = visibility;
+    }
+
+    public String getStatusDate() {
+        return statusDate;
+    }
+
+    public void setStatusDate(String statusDate) {
+        this.statusDate = statusDate;
+    }
+
+    public String getPercentageComplete() {
+        return percentageComplete;
+    }
+
+    public void setPercentageComplete(String percentageComplete) {
+        this.percentageComplete = percentageComplete;
     }
 }

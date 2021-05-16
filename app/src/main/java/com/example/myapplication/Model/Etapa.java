@@ -10,8 +10,10 @@ public class Etapa {
     private String status;
     private String projectID;
     private String visibility;
+    private String statusDate;
+    private String percentageComplete;
 
-    public Etapa(String id, String titlu, String descriere, String endDate, String startDate, String status, String projectID, String visibility) {
+    public Etapa(String id, String titlu, String descriere, String endDate, String startDate, String status, String projectID, String visibility, String statusDate, String percentageComplete) {
         this.id = id;
         this.titlu = titlu;
         this.descriere = descriere;
@@ -20,6 +22,8 @@ public class Etapa {
         this.status = status;
         this.projectID = projectID;
         this.visibility = visibility;
+        this.statusDate = statusDate;
+        this.percentageComplete = percentageComplete;
     }
 
     public Etapa() {
@@ -87,5 +91,21 @@ public class Etapa {
 
     public void setVisibility(String visibility) {
         this.visibility = visibility;
+    }
+
+    public String getStatusDate() {
+        return statusDate;
+    }
+
+    public void setStatusDate(String statusDate) {
+        this.statusDate = statusDate;
+    }
+
+    public String getPercentageComplete() {
+        return percentageComplete;
+    }
+
+    public void setPercentageComplete(String percentageComplete) {
+        this.percentageComplete = percentageComplete;
     }
 }

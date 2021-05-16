@@ -54,6 +54,7 @@ public class ProjectActivity extends AppCompatActivity {
     private ImageButton eye;
 
 
+
     TextView titlu;
     TextView descriere;
 
@@ -65,7 +66,7 @@ public class ProjectActivity extends AppCompatActivity {
     private ArrayList<String> str;
 
 
-    private ImageView addEtapa;
+    private ImageView addEtapa, ganttBtn;
 
     FirebaseDatabase db;
 
@@ -106,6 +107,7 @@ public class ProjectActivity extends AppCompatActivity {
         descriere = findViewById(R.id.descriere);
 
 
+
         intent = getIntent();
         projectid = intent.getStringExtra("projectid");
         projectName = intent.getStringExtra("projectName");
@@ -120,8 +122,19 @@ public class ProjectActivity extends AppCompatActivity {
 
         addEtapa = findViewById(R.id.addEtapa);
         eye = findViewById(R.id.eye);
+        ganttBtn = findViewById(R.id.ganttBtn);
 
         readEtape(projectid);
+
+        ganttBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProjectActivity.this, GanttChartEtapeActivity.class);
+                intent.putExtra("projectid", projectid);
+                startActivity(intent);
+
+            }
+        });
 
         addEtapa.setOnClickListener(new View.OnClickListener() {
             @Override

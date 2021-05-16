@@ -252,6 +252,8 @@ public class popup extends AppCompatDialogFragment {
         hashMap.put("endDate", endDate);
         hashMap.put("status", "toDo");
         hashMap.put("visibility", "VISIBLE");
+        hashMap.put("statusDate", null);
+        hashMap.put("percentageComplete", null);
 
         reference.setValue(hashMap);
 

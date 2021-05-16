@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -72,7 +73,7 @@ public class EtapeActivity extends AppCompatActivity {
     private List<Task> mTasks;
     private ArrayList<String> str;
 
-    private ImageView addTask;
+    private ImageView addTask, ganttBtn;
     ImageButton eye;
 
     FirebaseDatabase db;
@@ -128,9 +129,20 @@ public class EtapeActivity extends AppCompatActivity {
         str = new ArrayList<String>();
 
         addTask = findViewById(R.id.addTask);
+        ganttBtn = findViewById(R.id.ganttBtn);
 
        // mTasks.clear();
         readTask(etapaid);
+
+        ganttBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EtapeActivity.this, GanttChartActivity.class);
+                intent.putExtra("etapaid", etapaid);
+                startActivity(intent);
+
+            }
+        });
 
 
         addTask.setOnClickListener(new View.OnClickListener() {
