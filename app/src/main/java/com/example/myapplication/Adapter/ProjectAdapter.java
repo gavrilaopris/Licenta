@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.MessageActivity;
 import com.example.myapplication.Model.Project;
 import com.example.myapplication.ProjectActivity;
 import com.example.myapplication.R;
@@ -88,7 +87,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView projectname;
-        public CircleImageView userimage;
         public TextView Date;
         public TextView status;
         public ImageView menu;
@@ -98,7 +96,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             super(itemView);
 
             projectname = itemView.findViewById(R.id.projectname);
-            userimage = itemView.findViewById(R.id.image);
             Date = itemView.findViewById(R.id.Date);
             status = itemView.findViewById(R.id.status);
             menu = itemView.findViewById(R.id.menu);

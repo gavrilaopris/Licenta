@@ -177,6 +177,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                             chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid())){
                         if (chat.getType().equals("image")){
                             theLastMessage = "Sent a photo";
+                        }else if (chat.getType().equals("document")){
+                            theLastMessage = "Sent a document";
                         }else {
                             theLastMessage = chat.getMessage();
                         }
