@@ -11,9 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Model.Project;
+import com.example.myapplication.PopupDateChanger;
+import com.example.myapplication.PopupDateChangerEtapa;
+import com.example.myapplication.PopupDateChangerProject;
 import com.example.myapplication.ProjectActivity;
 import com.example.myapplication.R;
 import com.google.firebase.database.DatabaseReference;
@@ -66,6 +70,16 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 intent.putExtra("projectName", project.getName());
                 intent.putExtra("projectDescriere", project.getDescriere());
                 mContext.startActivity(intent);
+            }
+        });
+
+        holder.Date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupDateChangerProject popupDateChangerProject = new PopupDateChangerProject();
+                PopupDateChangerProject.projectid= project.getId();
+                PopupDateChangerProject.endDate= project.getEndDate();
+                popupDateChangerProject.show(((FragmentActivity)mContext).getSupportFragmentManager(), "popup");
             }
         });
 

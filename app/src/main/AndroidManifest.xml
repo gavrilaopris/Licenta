@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".GanttEtape"></activity>
+        <activity android:name=".PopupDateChanger"></activity>
+        <activity android:name=".GanttEtape" />
         <activity android:name=".GanttChartEtapeActivity" />
         <activity android:name=".Gantt" />
         <activity android:name=".GanttChartActivity" />
