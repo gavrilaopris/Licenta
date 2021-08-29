@@ -45,10 +45,10 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registe);
 
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        Objects.requireNonNull(getSupportActionBar()).setTitle("Register");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Register");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mFullName = findViewById(R.id.fullName);
         mEmail = findViewById(R.id.Email);
@@ -102,6 +102,13 @@ public class Register extends AppCompatActivity {
             }
 
 
+        });
+
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),Login.class));
+            }
         });
     }
 

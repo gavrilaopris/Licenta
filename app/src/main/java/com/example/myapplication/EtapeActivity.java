@@ -226,10 +226,6 @@ public class EtapeActivity extends AppCompatActivity {
         //mTasks.removeAll(mTasks);
         DatabaseReference reference = db.getReference("Tasks");
 
-       // DatabaseReference ref = db.getReference("ListTasks").child(etapaid);
-
-
-
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

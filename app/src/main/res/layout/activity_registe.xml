@@ -9,6 +9,9 @@
 
 
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/bar_layout"/>
 
 
     <TextView
