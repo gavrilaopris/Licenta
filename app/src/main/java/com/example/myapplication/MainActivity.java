@@ -185,12 +185,13 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        
 
-        viewPagerAdapter.addFragment(new ChatsFragment(), "Chat");
-        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+
         viewPagerAdapter.addFragment(new ProjectsFragment(), "Projects");
         viewPagerAdapter.addFragment(new WorkFragment(), "Work");
+        viewPagerAdapter.addFragment(new ChatsFragment(), "Chat");
+        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+
 
         viewPager.setAdapter(viewPagerAdapter);
 

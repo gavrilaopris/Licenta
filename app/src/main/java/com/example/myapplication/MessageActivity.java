@@ -356,7 +356,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Token token = dataSnapshot.getValue(Token.class);
-                    Data data = new Data(fuser.getUid(), R.drawable.ic_launcher, username+": "+message, "New Message", userid);
+                    Data data = new Data(fuser.getUid(), R.mipmap.ic_launcher, username+": "+message, "New Message", userid);
 
 
                     assert token != null;
