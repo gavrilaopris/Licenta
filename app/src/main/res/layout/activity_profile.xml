@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".Profile">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/bar_layout"/>
+
     <Button
         android:id="@+id/logout"
         android:layout_width="0dp"

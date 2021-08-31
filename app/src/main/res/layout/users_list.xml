@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn"
-        android:text="Dai"
+        android:text="Choose"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
