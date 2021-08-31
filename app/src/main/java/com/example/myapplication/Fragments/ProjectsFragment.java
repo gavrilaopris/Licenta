@@ -3,6 +3,7 @@ package com.example.myapplication.Fragments;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -210,6 +211,8 @@ public class ProjectsFragment extends Fragment {
             }
         });
 
+
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,6 +241,7 @@ public class ProjectsFragment extends Fragment {
 
 
                 createProject(name, desc, startDate, endDate);
+                alertDialog.dismiss();
             }
         });
 
@@ -278,7 +282,7 @@ public class ProjectsFragment extends Fragment {
         hashMap.put("descriere", desc);
         hashMap.put("startDate", startDate);
         hashMap.put("endDate", endDate);
-        hashMap.put("status", "toDo");
+        hashMap.put("status", "Working");
         hashMap.put("visibility", "VISIBLE");
 
         reference.setValue(hashMap);

@@ -43,6 +43,7 @@
         android:paddingBottom="10dp"
         android:paddingStart="35dp"
         android:paddingEnd="35dp"
+        android:layout_marginStart="44dp"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -54,7 +55,7 @@
         android:paddingStart="40dp"
         android:paddingEnd="35dp"
         android:paddingBottom="10dp"
-        android:layout_marginStart="22dp"
+        android:layout_marginStart="130dp"
         android:textAlignment="center"
         />
 
@@ -64,7 +65,7 @@
         android:src="@drawable/ic_eye"
         android:id="@+id/eye"
         android:layout_toEndOf="@+id/date"
-        android:layout_marginStart="52dp"/>
+        android:layout_marginStart="105dp"/>
 
      </RelativeLayout>
 

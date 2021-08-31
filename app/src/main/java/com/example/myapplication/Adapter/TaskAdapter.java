@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.FragmentActivity;
@@ -74,10 +76,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
         holder.Date.setText(date);
         holder.status.setText(task.getStatus());
-        if (task.getStatus().equals("Complete")){
-            holder.status.setBackgroundColor(Color.YELLOW);
-        } else if (task.getStatus().equals("Later")) {
-            holder.status.setBackgroundColor(Color.RED);
+        if (task.getStatus().equals("Done")){
+            holder.status.setBackgroundResource(R.drawable.rounded_corners_green);
+        } else if (task.getStatus().equals("Stuck")) {
+            holder.status.setBackgroundResource(R.drawable.rounded_corners_red);
         }
 
 
@@ -203,33 +205,33 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.ToDo:
+                    case R.id.Working:
                         DatabaseReference reference = db.getReference("Tasks").child(taskid);
 
                         Map<String,Object> Map = new HashMap<>();
 
-                        Map.put("status", "ToDo");
+                        Map.put("status", "Working");
 
 
                         reference.updateChildren(Map);
 
                         return true;
-                    case R.id.Complete:
+                    case R.id.Done:
                         reference = db.getReference("Tasks").child(taskid);
                         Map = new HashMap<>();
 
-                        Map.put("status", "Complete");
+                        Map.put("status", "Done");
 
 
                         reference.updateChildren(Map);
 
                         return true;
 
-                    case R.id.Later:
+                    case R.id.Stuck:
                         reference = db.getReference("Tasks").child(taskid);
                          Map = new HashMap<>();
 
-                        Map.put("status", "Later");
+                        Map.put("status", "Stuck");
 
 
                         reference.updateChildren(Map);

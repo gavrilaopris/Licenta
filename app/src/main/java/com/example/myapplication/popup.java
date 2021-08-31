@@ -105,6 +105,7 @@ public class popup extends AppCompatDialogFragment {
 
 
 
+
         arrowStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +150,7 @@ public class popup extends AppCompatDialogFragment {
 
 
                 createProject(titlu, desc, startDate, endDate, etapaid);
+
             }
         });
 
@@ -250,7 +252,7 @@ public class popup extends AppCompatDialogFragment {
         hashMap.put("descriere", desc);
         hashMap.put("startDate", startDate);
         hashMap.put("endDate", endDate);
-        hashMap.put("status", "toDo");
+        hashMap.put("status", "Working");
         hashMap.put("visibility", "VISIBLE");
         hashMap.put("statusDate", null);
         hashMap.put("percentageComplete", null);

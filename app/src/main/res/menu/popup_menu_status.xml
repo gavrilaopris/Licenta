@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="ToDo"
-        android:id="@+id/ToDo"
+        android:title="Working"
+        android:id="@+id/Working"
         app:showAsAction="never"/>
     <item
-        android:title="Complete"
-        android:id="@+id/Complete"
+        android:title="Done"
+        android:id="@+id/Done"
         app:showAsAction="never"/>
     <item
-        android:title="Later"
-        android:id="@+id/Later"
+        android:title="Stuck"
+        android:id="@+id/Stuck"
         app:showAsAction="never"/>
 </menu>

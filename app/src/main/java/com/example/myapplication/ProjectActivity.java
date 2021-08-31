@@ -294,6 +294,7 @@ public class ProjectActivity extends AppCompatActivity {
 
 
                 createProject(titlu, desc, startDate, endDate, projectid);
+                alertDialog.dismiss();
             }
         });
 
@@ -335,7 +336,7 @@ public class ProjectActivity extends AppCompatActivity {
         hashMap.put("descriere", desc);
         hashMap.put("startDate", startDate);
         hashMap.put("endDate", endDate);
-        hashMap.put("status", "toDo");
+        hashMap.put("status", "Working");
         hashMap.put("visibility", "VISIBLE");
 
         reference.setValue(hashMap);

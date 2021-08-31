@@ -90,7 +90,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/text"
-                    android:text="Project title"
+                    android:text="Task title"
                     android:textSize="20sp"
                     android:layout_alignParentStart="true"
                     android:paddingEnd="35dp"
@@ -98,7 +98,7 @@
                     android:paddingBottom="10dp"
                     />
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="155dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/image"
                     android:text="Person"
@@ -130,7 +130,7 @@
                     android:paddingStart="40dp"
                     android:paddingEnd="35dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginStart="22dp"
+                    android:layout_marginStart="48dp"
                     android:textAlignment="center"
                     />
 

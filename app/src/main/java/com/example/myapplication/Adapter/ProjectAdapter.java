@@ -61,6 +61,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.projectname.setText(project.getName());
         holder.Date.setText(date);
         holder.status.setText(project.getStatus());
+        if (project.getStatus().equals("Done")){
+            holder.status.setBackgroundResource(R.drawable.rounded_corners_green);
+        } else if (project.getStatus().equals("Stuck")) {
+            holder.status.setBackgroundResource(R.drawable.rounded_corners_red);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +92,13 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 showPopupMenu(v, project.getId());
+            }
+        });
+
+        holder.status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenuStatus(v, project.getId());
             }
         });
 
@@ -137,6 +149,54 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                     case R.id.delete:
                         reference = db.getReference("Proiecte").child(projectid);
                         reference.removeValue();
+
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
+
+    private void showPopupMenuStatus(View v, String projectid) {
+        PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+        popupMenu.inflate(R.menu.popup_menu_status);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.Working:
+                        DatabaseReference reference = db.getReference("Proiecte").child(projectid);
+
+                        Map<String,Object> Map = new HashMap<>();
+
+                        Map.put("status", "Working");
+
+
+                        reference.updateChildren(Map);
+
+                        return true;
+                    case R.id.Done:
+                        reference = db.getReference("Proiecte").child(projectid);
+                        Map = new HashMap<>();
+
+                        Map.put("status", "Done");
+
+
+                        reference.updateChildren(Map);
+
+                        return true;
+
+                    case R.id.Stuck:
+                        reference = db.getReference("Proiecte").child(projectid);
+                        Map = new HashMap<>();
+
+                        Map.put("status", "Stuck");
+
+
+                        reference.updateChildren(Map);
 
                         return true;
 
