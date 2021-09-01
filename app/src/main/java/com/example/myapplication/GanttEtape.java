@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,17 @@ public class GanttEtape extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gantt_etape);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Gantt Chart");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(GanttEtape.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
 
         ganttDataEtape = GanttDataEtape.getGanttDataEtape();
         if (ganttDataEtape != null)
