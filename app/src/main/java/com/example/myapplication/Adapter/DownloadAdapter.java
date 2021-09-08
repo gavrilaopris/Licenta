@@ -97,7 +97,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
 
         public TextView fileName;
         public TextView fileExt;
-        public Button renameBtn;
         public ImageButton downBtn;
         public ImageView imageFilePdf;
         public ImageView imageFileDocx;
@@ -109,7 +108,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
 
             fileName = itemView.findViewById(R.id.fileName);
             fileExt = itemView.findViewById(R.id.fileExt);
-            renameBtn = itemView.findViewById(R.id.renameBtn);
             downBtn = itemView.findViewById(R.id.downBtn);
             imageFilePdf = itemView.findViewById(R.id.imageFilePdf);
             imageFileDocx = itemView.findViewById(R.id.imageFileDocx);

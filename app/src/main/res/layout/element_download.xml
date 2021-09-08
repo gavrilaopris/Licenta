@@ -69,15 +69,7 @@
         android:layout_centerVertical="true"
         android:src="@drawable/ic_down" />
 
-    <Button
-        android:id="@+id/renameBtn"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/downBtn"
-        android:text="Rename"
-        android:textColor="@color/black"
-         />
+
 
 
 </RelativeLayout>
